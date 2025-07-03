@@ -2,47 +2,36 @@ package main
 
 import (
 	"log"
+	"os"
 
-	"backend/config"
 	"backend/handlers"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	// Load environment variables
-	err := config.LoadEnv()
+	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env:", err)
+		log.Fatal("Error loading .env")
 	}
 
-	// Setup router
 	r := gin.Default()
+	r.Use(cors.Default())
 
-	// Routes
-	r.GET("/trade-ideas", handlers.GetTradeIdeas)
-
-	// Start server
-	log.Println("🚀 Server running at http://localhost:8080")
-	if err := r.Run(":8080"); err != nil {
-		log.Fatal("Server error:", err)
+	api := r.Group("/api")
+	{
+		api.GET("/quote/:symbol", handlers.GetQuote)
+		api.GET("/signal/:symbol", handlers.GetSignal)
+		api.GET("/news/:symbol", handlers.GetNewsBias)
+		api.GET("/rrr/:symbol", handlers.GetRRR)
+		api.GET("/topdown", handlers.GetTopDown)
 	}
 
-	router := gin.Default()
-
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"}, // allow all origins for development
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-	}))
-
-	// Define your routes here
-	router.GET("/trade-ideas", handlers.GetTradeIdeas)
-
-	// Listen on all interfaces so your phone or emulator can reach it
-	router.Run("0.0.0.0:8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run(":" + port)
 }
