@@ -44,19 +44,19 @@ var lastFetch = make(map[string]int64)
 var mutex sync.Mutex
 
 var symbolMap = map[string]string{
-	"6E":  "EUR/USD",
-	"6A":  "AUD/USD",
-	"6B":  "GBP/USD",
-	"CL":  "WTI",
-	"GC":  "GOLD",
-	"SI":  "SILVER",
-	"ES":  "SPY",
-	"NQ":  "QQQ",
-	"RTY": "IWM",
-	"ZB":  "TLT",
-	"ZN":  "IEF",
-	"MES": "SPY",
-	"MNQ": "QQQ",
+	"6E": "EUR/USD",
+	"6A": "AUD/USD",
+	"6B": "GBP/USD",
+	"CL": "WTI",
+	// "GC":  "GOLD",
+	// "SI":  "SILVER",
+	// "ES":  "SPY",
+	// "NQ":  "QQQ",
+	// "RTY": "IWM",
+	// "ZB":  "TLT",
+	// "ZN":  "IEF",
+	// "MES": "SPY",
+	// "MNQ": "QQQ",
 }
 
 func GetNewsBias(c *gin.Context) {
