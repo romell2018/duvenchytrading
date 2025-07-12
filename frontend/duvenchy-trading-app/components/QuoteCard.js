@@ -13,6 +13,7 @@ export default function QuoteCard({ data }) {
   );
 }
 
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#1e1e1e',
