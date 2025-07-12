@@ -27,6 +27,7 @@ func main() {
 		api.GET("/news/:symbol", handlers.GetNewsBias)
 		api.GET("/rrr/:symbol", handlers.GetRRR)
 		api.GET("/topdown", handlers.GetTopDown)
+		r.GET("/ai/signal/:symbol", handlers.GetAISignal)
 	}
 
 	port := os.Getenv("PORT")

@@ -10,24 +10,40 @@ import (
 )
 
 type NewsBiasResult struct {
-	Symbol    string `json:"symbol"`
-	Sentiment string `json:"sentiment"`
-	Bias      string `json:"bias"`
-	Summary   string `json:"summary"`
-	Source    string `json:"source"`
+	Symbol     string  `json:"symbol"`
+	Sentiment  string  `json:"sentiment"`
+	Bias       string  `json:"bias"`
+	Summary    string  `json:"summary"`
+	Entry      float64 `json:"entry"`
+	StopLoss   float64 `json:"stop_loss"`
+	TakeProfit float64 `json:"take_profit"`
+	Source     string  `json:"source"`
 }
 
 func AnalyzeNewsBias(symbol string) (*NewsBiasResult, error) {
 	dummyHeadline := fmt.Sprintf("Recent economic data suggests growing uncertainty around %s", symbol)
 
+	currentPrice := 100.0 // Replace with actual price if available
 	prompt := fmt.Sprintf(`Analyze the following news for trading sentiment and bias:
 Headline: %s
 
 Return a JSON with:
 - sentiment (bullish, bearish, neutral)
-- bias (e.g. risk-on, hawkish, dovish, inflation-fear, etc.)
-- short summary`, dummyHeadline)
+- bias (e.g. risk-on, hawkish, dovish, etc.)
+- summary (professional and brief)
+- entry (entry price for trade idea)
+- stop_loss (stop loss price)
+- take_profit (take profit price)
 
+Assume the current price of %s is %.4f. Based on this, return a JSON with:
+- sentiment (bullish, bearish, neutral)
+- bias (risk-on, risk-off, neutral, etc.)
+- summary (short, professional)
+- entry (entry price)
+- stop_loss (stop loss price)
+- take_profit (take profit price)
+
+Trade idea must align with the sentiment and bias.`, dummyHeadline, symbol, currentPrice)
 	payload := map[string]interface{}{
 		"model": "gpt-4",
 		"messages": []map[string]string{

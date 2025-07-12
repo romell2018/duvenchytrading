@@ -15,7 +15,7 @@ type QuoteResponse struct {
 	Name          string      `json:"name"`
 	Exchange      string      `json:"exchange"`
 	Currency      string      `json:"currency"`
-	Price         string      `json:"price"`
+	Price         string      `json:"close"`
 	PreviousClose string      `json:"previous_close"`
 	Change        string      `json:"change"`
 	PercentChange string      `json:"percent_change"`
@@ -28,7 +28,7 @@ type QuoteResponse struct {
 func GetQuote(symbol string) (*QuoteResponse, error) {
 	apiKey := os.Getenv("TWELVE_DATA_API_KEY")
 	if apiKey == "" {
-		return nil, fmt.Errorf("Twelve Data API key not set in .env")
+		return nil, fmt.Errorf("twelve Data API key not set in .env")
 	}
 
 	client := resty.New()
